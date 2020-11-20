@@ -1,10 +1,10 @@
 package com.freightosassignment;
 
-public class CreditCard {
+public class Card {
     private String cardId;
     private double balance;
 
-    public CreditCard(String cardId, double balance) {
+    public Card(String cardId, double balance) {
         this.cardId = cardId;
         this.balance = balance;
     }
@@ -28,10 +28,10 @@ public class CreditCard {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof CreditCard))
+        if(!(obj instanceof Card))
             return false;
-        CreditCard creditCard = (CreditCard)obj;
-        if(this.cardId.equals(creditCard.getCardId()))
+        Card card = (Card)obj;
+        if(this.cardId.equals(card.getCardId()))
             return true;
 
         return false;

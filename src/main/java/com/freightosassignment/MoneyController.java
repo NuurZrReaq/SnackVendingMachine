@@ -1,19 +1,18 @@
 package com.freightosassignment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class MoneyController {
     private File cards;
-    private List<CreditCard> creditCardList;
+    private List<Card> cardList;
     public MoneyController() {
-        creditCardList = new ArrayList<>();
+        cardList = new ArrayList<>();
         cards = new File("cards.txt");
         try {
-            creditCardList = fillCreditCardList(new Scanner(cards));
+            cardList = fillCreditCardList(new Scanner(cards));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             exception.printStackTrace();
@@ -22,9 +21,9 @@ public class MoneyController {
     }
     //Checks if the cardId entered is for a valid credit card.
     public boolean isCreditCardAvailable(String cardId){
-        for(CreditCard creditCard : creditCardList){
+        for(Card card : cardList){
             try {
-                if (creditCard.getCardId().equals(cardId))
+                if (card.getCardId().equals(cardId))
                     return true;
             }catch (Exception exception){
                 exception.printStackTrace();
@@ -35,12 +34,12 @@ public class MoneyController {
     //Updates the balance of the used credit card.
     public boolean buyWithCreditCard(String cardId, double price){
         int i=0;
-        for(CreditCard creditCard : creditCardList){
+        for(Card card : cardList){
             try{
-                if(creditCard.getCardId().equals(cardId)) {
-                    if(price <= creditCard.getBalance()){
-                        creditCard.decrementBalance(price);
-                        creditCardList.set(i,creditCard);
+                if(card.getCardId().equals(cardId)) {
+                    if(price <= card.getBalance()){
+                        card.decrementBalance(price);
+                        cardList.set(i, card);
                         return true;
                     }
                     return false;
@@ -88,7 +87,8 @@ public class MoneyController {
                         try{
                             moneyDouble = Double.parseDouble(moneyString);
                         } catch (Exception exception){
-                            throw new Exception("Enter a double value");
+                            exception.printStackTrace();
+                            continue;
                         }
                         if(validateMoney(moneyDouble)) {
                             accumulatedMoney += moneyDouble;
@@ -154,8 +154,8 @@ public class MoneyController {
         return false;
     }
     //Reads the list of credit card from a local file to mock a dataset.
-    private List<CreditCard> fillCreditCardList(Scanner file) throws Exception {
-        List<CreditCard> creditCards = new ArrayList<>();
+    private List<Card> fillCreditCardList(Scanner file) throws Exception {
+        List<Card> cards = new ArrayList<>();
         String line;
         String [] splitLine;
         for(int i=0; i<5; i++){
@@ -166,11 +166,11 @@ public class MoneyController {
             }
             splitLine = line.split(" ");
             try{
-                creditCards.add(new CreditCard(splitLine[0],Double.parseDouble(splitLine[1])));
+                cards.add(new Card(splitLine[0],Double.parseDouble(splitLine[1])));
             }catch (Exception exception){
                 throw new Exception("Invalid balance data");
             }
         }
-        return creditCards;
+        return cards;
     }
 }
