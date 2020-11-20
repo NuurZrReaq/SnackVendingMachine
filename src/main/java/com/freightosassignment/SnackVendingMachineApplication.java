@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class SnackVendingMachineApplication {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args)  {
         Scanner console = new Scanner (System.in);
         String snackIndexString;
         String []splitSnackIndexString;
@@ -60,8 +60,6 @@ public class SnackVendingMachineApplication {
                 System.out.println("Please pay enough money");
             }
             System.out.println("Money to be returned is "+ moneyToReturn);
-
-
 
         }
 

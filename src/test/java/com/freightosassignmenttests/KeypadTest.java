@@ -10,8 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class KeypadTest {
     Scanner mockScanner;
 
-    public KeypadTest() throws FileNotFoundException {
-        mockScanner = new Scanner(new File("cards.txt"));
+    public KeypadTest() {
+        try {
+            mockScanner = new Scanner(new File("cards.txt"));
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Test

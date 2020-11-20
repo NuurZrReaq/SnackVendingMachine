@@ -55,7 +55,7 @@ public class MoneyController {
 
     //Returns the value of the remaining change needed to be sent back to customer.
     //Reads the payment method and scan the money entered.
-    public double read (double price, Scanner console,ArrayList<Boolean> dispenseSnack) throws Exception {
+    public double read (double price, Scanner console,ArrayList<Boolean> dispenseSnack)  {
         int i=0;
         while (i<5){
             i++;
@@ -65,7 +65,8 @@ public class MoneyController {
             try{
                isCredit = console.nextLine().toLowerCase();
             } catch (Exception exception){
-                throw new Exception("No line to read");
+                exception.printStackTrace();
+                continue;
             }
             switch(isCredit){
                 case "no": {
@@ -79,7 +80,8 @@ public class MoneyController {
                         try{
                             moneyString = console.nextLine();
                         } catch (Exception exception ){
-                            throw new Exception("No line to read");
+                            exception.printStackTrace();
+                            continue;
                         }
                         if(moneyString.equals("")){
                             break;
@@ -119,7 +121,8 @@ public class MoneyController {
                     try{
                         cardID = console.nextLine();
                     }catch (Exception exception){
-                        throw new Exception("No line to read");
+                        exception.printStackTrace();
+                        continue;
                     }
                     if(isCreditCardAvailable(cardID)){
                         if(buyWithCreditCard(cardID,price)){
@@ -154,7 +157,7 @@ public class MoneyController {
         return false;
     }
     //Reads the list of credit card from a local file to mock a dataset.
-    private List<Card> fillCreditCardList(Scanner file) throws Exception {
+    private List<Card> fillCreditCardList(Scanner file)  {
         List<Card> cards = new ArrayList<>();
         String line;
         String [] splitLine;
@@ -162,13 +165,14 @@ public class MoneyController {
             try{
                 line = file.nextLine();
             } catch (Exception e){
-                throw new Exception("There is no line to read");
+                e.printStackTrace();
+                continue;
             }
             splitLine = line.split(" ");
             try{
                 cards.add(new Card(splitLine[0],Double.parseDouble(splitLine[1])));
             }catch (Exception exception){
-                throw new Exception("Invalid balance data");
+               exception.printStackTrace();
             }
         }
         return cards;

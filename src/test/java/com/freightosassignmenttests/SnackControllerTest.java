@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SnackControllerTest {
     SnacksController snacksController;
 
-    public SnackControllerTest() throws FileNotFoundException {
+    public SnackControllerTest()  {
         snacksController = new SnacksController();
     }
 
     @Test
-    void isSnackAvailableTest() throws Exception {
+    void isSnackAvailableTest()  {
         assertTrue(snacksController.isSnackAvailable(0));
     }
 
     @Test
-    void getSnackAtSlotTest() throws Exception {
+    void getSnackAtSlotTest()  {
         assertEquals(snacksController.getSnackAtSlot(0).getName(),"Twix");
         assertEquals(snacksController.getSnackAtSlot(1).getName(),"KitKat");
         assertEquals(snacksController.getSnackAtSlot(2).getName(),"Doritos");
@@ -26,7 +26,7 @@ public class SnackControllerTest {
     }
 
     @Test
-    void buySnack() throws Exception {
+    void buySnack()  {
         assertEquals(snacksController.buySnack(0),4);
         assertEquals(snacksController.buySnack(0),3);
         assertEquals(snacksController.buySnack(0),2);

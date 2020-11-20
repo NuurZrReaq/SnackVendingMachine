@@ -22,7 +22,7 @@ public class SnacksController {
         }
     }
     //Reads the snack list from a local file to mock a dataset.
-    private List<Snack> fillSnackSlots(Scanner file) throws Exception {
+    private List<Snack> fillSnackSlots(Scanner file) {
         List<Snack> snacks = new ArrayList<>();
         String line;
         String []splitLine ;
@@ -30,47 +30,50 @@ public class SnacksController {
             try{
                 line = file.nextLine();
             } catch (Exception exception){
-                throw new Exception("There is no line to read");
+                exception.printStackTrace();
+                continue;
             }
             splitLine = line.split(" ");
             try {
                 snacks.add(new Snack(splitLine[0],Double.parseDouble(splitLine[1]),Integer.parseInt(splitLine[2])));
             } catch (Exception exception){
-                throw new Exception("Invalid snack information");
+                exception.printStackTrace();
             }
 
         }
         return snacks;
     }
     //returns true if the quantity of the provided snack > 0.
-    public boolean isSnackAvailable(int slotIndex) throws Exception {
+    public boolean isSnackAvailable(int slotIndex) {
         try {
             if (snackList.get(slotIndex).getQuantity() > 0)
                 return true;
         }catch (Exception exception){
-            throw new Exception("Snack not found, invalid index");
+            exception.printStackTrace();
         }
 
         return false;
     }
     // returns the snack object of index slotIndex.
-    public Snack getSnackAtSlot(int slotIndex) throws Exception {
+    public Snack getSnackAtSlot(int slotIndex)  {
         Snack snack;
         try {
             snack = snackList.get(slotIndex);
         } catch (Exception exception) {
-            throw new Exception("Snack not found, invalid index");
+            exception.printStackTrace();
+            return null;
         }
         return snack;
     }
 
     //Decrements the quantity of the bought obj at index slotIndex and returns the new quantity.
-    public int buySnack(int slotIndex) throws Exception {
+    public int buySnack(int slotIndex)  {
         Snack snack;
         try{
             snack = snackList.get(slotIndex);
         }catch (Exception exception){
-            throw new Exception("Snack not found, invalid index");
+            exception.printStackTrace();
+            return -1;
         }
         snack.decrementQuantity();
         snackList.set(slotIndex,snack);
