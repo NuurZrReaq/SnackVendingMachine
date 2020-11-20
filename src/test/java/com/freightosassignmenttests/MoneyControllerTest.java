@@ -42,7 +42,7 @@ public class MoneyControllerTest {
     }
 
     @Test
-    void readTest() {
+    void readTest() throws Exception {
         assertEquals(moneyController.read(5.0,mockConsole,mockDispenseFlag),15.0);
         assertTrue(mockDispenseFlag.get(0));
         mockDispenseFlag.set(0,Boolean.FALSE);

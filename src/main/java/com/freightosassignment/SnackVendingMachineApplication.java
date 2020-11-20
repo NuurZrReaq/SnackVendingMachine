@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class SnackVendingMachineApplication {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         Scanner console = new Scanner (System.in);
         String snackIndexString;
         String []splitSnackIndexString;
@@ -22,14 +22,19 @@ public class SnackVendingMachineApplication {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        int row, col;
+        int row=0, col=0;
         while(true){
             snacksController.printSnackList();
             dispenseSnack.add(Boolean.FALSE);
             snackIndexString = Keypad.read(console);
             splitSnackIndexString = snackIndexString.split("");
-            row = Integer.parseInt(splitSnackIndexString[0]);
-            col = Integer.parseInt(splitSnackIndexString[1]);
+            try{
+                row = Integer.parseInt(splitSnackIndexString[0]);
+                col = Integer.parseInt(splitSnackIndexString[1]);
+            } catch (Exception exception){
+                exception.printStackTrace();
+            }
+
             if(row <1 || row >5 ){
                 System.out.println("Please enter a valid Index");
                 continue;

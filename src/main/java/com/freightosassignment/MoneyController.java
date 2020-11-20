@@ -9,32 +9,45 @@ import java.util.Scanner;
 public class MoneyController {
     private File cards;
     private List<CreditCard> creditCardList;
-    public MoneyController() throws FileNotFoundException {
+    public MoneyController() {
         creditCardList = new ArrayList<>();
         cards = new File("cards.txt");
-        creditCardList = fillCreditCardList(new Scanner(cards));
+        try {
+            creditCardList = fillCreditCardList(new Scanner(cards));
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            exception.printStackTrace();
+        }
 
     }
-
+    //Checks if the cardId entered is for a valid credit card.
     public boolean isCreditCardAvailable(String cardId){
         for(CreditCard creditCard : creditCardList){
-            if(creditCard.getCardId().equals(cardId))
-                return true;
+            try {
+                if (creditCard.getCardId().equals(cardId))
+                    return true;
+            }catch (Exception exception){
+                exception.printStackTrace();
+            }
         }
         return false;
     }
-
+    //Updates the balance of the used credit card.
     public boolean buyWithCreditCard(String cardId, double price){
         int i=0;
         for(CreditCard creditCard : creditCardList){
-            if(creditCard.getCardId().equals(cardId)) {
-                if(price <= creditCard.getBalance()){
-                    creditCard.decrementBalance(price);
-                    creditCardList.set(i,creditCard);
-                    return true;
-                }
-                return false;
+            try{
+                if(creditCard.getCardId().equals(cardId)) {
+                    if(price <= creditCard.getBalance()){
+                        creditCard.decrementBalance(price);
+                        creditCardList.set(i,creditCard);
+                        return true;
+                    }
+                    return false;
 
+                }
+            } catch (Exception exception){
+                exception.printStackTrace();
             }
             i++;
         }
@@ -42,13 +55,19 @@ public class MoneyController {
     }
 
     //Returns the value of the remaining change needed to be sent back to customer.
-    public double read (double price, Scanner console,ArrayList<Boolean> dispenseSnack){
+    //Reads the payment method and scan the money entered.
+    public double read (double price, Scanner console,ArrayList<Boolean> dispenseSnack) throws Exception {
         int i=0;
         while (i<5){
             i++;
             System.out.println("Would you like to use credit card for paying?\n " +
                     "Please Enter Yes or No\n");
-            String isCredit = console.nextLine().toLowerCase();
+            String isCredit;
+            try{
+               isCredit = console.nextLine().toLowerCase();
+            } catch (Exception exception){
+                throw new Exception("No line to read");
+            }
             switch(isCredit){
                 case "no": {
                     System.out.println("Please start entering your coins or bank notes\n" +
@@ -58,11 +77,19 @@ public class MoneyController {
                     double moneyToReturn =0;
                     double accumulatedMoney=0;
                     while(true){
-                        moneyString = console.nextLine();
+                        try{
+                            moneyString = console.nextLine();
+                        } catch (Exception exception ){
+                            throw new Exception("No line to read");
+                        }
                         if(moneyString.equals("")){
                             break;
                         }
-                        moneyDouble = Double.parseDouble(moneyString);
+                        try{
+                            moneyDouble = Double.parseDouble(moneyString);
+                        } catch (Exception exception){
+                            throw new Exception("Enter a double value");
+                        }
                         if(validateMoney(moneyDouble)) {
                             accumulatedMoney += moneyDouble;
                             System.out.println("Money entered : "+ accumulatedMoney+" \n");
@@ -88,7 +115,12 @@ public class MoneyController {
                 }
                 case "yes": {
                     System.out.println("Please enter your credit card id\n");
-                    String cardID = console.nextLine();
+                    String cardID;
+                    try{
+                        cardID = console.nextLine();
+                    }catch (Exception exception){
+                        throw new Exception("No line to read");
+                    }
                     if(isCreditCardAvailable(cardID)){
                         if(buyWithCreditCard(cardID,price)){
                             System.out.println("Your payment has been performed successfully");
@@ -113,7 +145,7 @@ public class MoneyController {
 
 
     }
-
+    //checks out that the money entered is from the allowed list.
     private boolean validateMoney(double moneyDouble) {
         if(moneyDouble == 20.0 || moneyDouble ==50.0 || moneyDouble ==1.00 || moneyDouble == 0.50 ||
                 moneyDouble == 0.20 || moneyDouble == 0.10) {
@@ -121,15 +153,23 @@ public class MoneyController {
         }
         return false;
     }
-
-    private List<CreditCard> fillCreditCardList(Scanner file) {
+    //Reads the list of credit card from a local file to mock a dataset.
+    private List<CreditCard> fillCreditCardList(Scanner file) throws Exception {
         List<CreditCard> creditCards = new ArrayList<>();
         String line;
         String [] splitLine;
         for(int i=0; i<5; i++){
-            line = file.nextLine();
+            try{
+                line = file.nextLine();
+            } catch (Exception e){
+                throw new Exception("There is no line to read");
+            }
             splitLine = line.split(" ");
-            creditCards.add(new CreditCard(splitLine[0],Double.parseDouble(splitLine[1])));
+            try{
+                creditCards.add(new CreditCard(splitLine[0],Double.parseDouble(splitLine[1])));
+            }catch (Exception exception){
+                throw new Exception("Invalid balance data");
+            }
         }
         return creditCards;
     }

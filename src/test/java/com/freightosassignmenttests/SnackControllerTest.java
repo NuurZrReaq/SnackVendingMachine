@@ -13,12 +13,12 @@ public class SnackControllerTest {
     }
 
     @Test
-    void isSnackAvailableTest() {
+    void isSnackAvailableTest() throws Exception {
         assertTrue(snacksController.isSnackAvailable(0));
     }
 
     @Test
-    void getSnackAtSlotTest() {
+    void getSnackAtSlotTest() throws Exception {
         assertEquals(snacksController.getSnackAtSlot(0).getName(),"Twix");
         assertEquals(snacksController.getSnackAtSlot(1).getName(),"KitKat");
         assertEquals(snacksController.getSnackAtSlot(2).getName(),"Doritos");
@@ -26,7 +26,7 @@ public class SnackControllerTest {
     }
 
     @Test
-    void buySnack() {
+    void buySnack() throws Exception {
         assertEquals(snacksController.buySnack(0),4);
         assertEquals(snacksController.buySnack(0),3);
         assertEquals(snacksController.buySnack(0),2);

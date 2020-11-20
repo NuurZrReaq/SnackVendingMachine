@@ -10,41 +10,73 @@ public class SnacksController {
     private File snacks;
     private List<Snack> snackList;
 
-    public SnacksController() throws FileNotFoundException {
-        snackList = new ArrayList<>();
-        snacks = new File("snacks.txt");
-        snackList = fillSnackSlots(new Scanner(snacks));
+    public SnacksController()  {
+        try {
+            snackList = new ArrayList<>();
+            snacks = new File("snacks.txt");
+            snackList = fillSnackSlots(new Scanner(snacks));
+        } catch (FileNotFoundException exception) {
+            exception.printStackTrace();
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        }
     }
-
-    private List<Snack> fillSnackSlots(Scanner file) {
+    //Reads the snack list from a local file to mock a dataset.
+    private List<Snack> fillSnackSlots(Scanner file) throws Exception {
         List<Snack> snacks = new ArrayList<>();
         String line;
         String []splitLine ;
         for(int i=0; i<25; i++){
-            line = file.nextLine();
+            try{
+                line = file.nextLine();
+            } catch (Exception exception){
+                throw new Exception("There is no line to read");
+            }
             splitLine = line.split(" ");
-            snacks.add(new Snack(splitLine[0],Double.parseDouble(splitLine[1]),Integer.parseInt(splitLine[2])));
+            try {
+                snacks.add(new Snack(splitLine[0],Double.parseDouble(splitLine[1]),Integer.parseInt(splitLine[2])));
+            } catch (Exception exception){
+                throw new Exception("Invalid snack information");
+            }
+
         }
         return snacks;
     }
-
-    public boolean isSnackAvailable(int slotIndex) {
-        if(snackList.get(slotIndex).getQuantity()>0)
-            return true;
+    //returns true if the quantity of the provided snack > 0.
+    public boolean isSnackAvailable(int slotIndex) throws Exception {
+        try {
+            if (snackList.get(slotIndex).getQuantity() > 0)
+                return true;
+        }catch (Exception exception){
+            throw new Exception("Snack not found, invalid index");
+        }
 
         return false;
     }
-
-    public Snack getSnackAtSlot(int slotIndex){
-        return snackList.get(slotIndex);
+    // returns the snack object of index slotIndex.
+    public Snack getSnackAtSlot(int slotIndex) throws Exception {
+        Snack snack;
+        try {
+            snack = snackList.get(slotIndex);
+        } catch (Exception exception) {
+            throw new Exception("Snack not found, invalid index");
+        }
+        return snack;
     }
 
-    public int buySnack(int slotIndex){
-        Snack snack = snackList.get(slotIndex);
+    //Decrements the quantity of the bought obj at index slotIndex and returns the new quantity.
+    public int buySnack(int slotIndex) throws Exception {
+        Snack snack;
+        try{
+            snack = snackList.get(slotIndex);
+        }catch (Exception exception){
+            throw new Exception("Snack not found, invalid index");
+        }
         snack.decrementQuantity();
         snackList.set(slotIndex,snack);
         return snack.getQuantity();
     }
+    //prints the whole snack list so the customer can choose from them.
     public void printSnackList(){
         int i =0;
         int row,col;

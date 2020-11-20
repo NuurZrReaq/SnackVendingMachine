@@ -17,6 +17,7 @@ public class CreditCard {
         return balance;
     }
 
+    //Decrementing the balance of the credit card after the buying is done.
     public double decrementBalance(double decrementValue){
         if(decrementValue > this.balance )
             return this.balance;
