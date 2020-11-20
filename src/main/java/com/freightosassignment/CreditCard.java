@@ -17,8 +17,12 @@ public class CreditCard {
         return balance;
     }
 
-    public void decrementBalance(double decrementValue){
+    public double decrementBalance(double decrementValue){
+        if(decrementValue > this.balance )
+            return this.balance;
+
         this.balance = this.balance - decrementValue;
+        return this.balance;
     }
 
     @Override

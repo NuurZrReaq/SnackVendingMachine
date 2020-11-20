@@ -39,10 +39,28 @@ public class SnacksController {
         return snackList.get(slotIndex);
     }
 
-    public void buySnack(int slotIndex){
+    public int buySnack(int slotIndex){
         Snack snack = snackList.get(slotIndex);
         snack.decrementQuantity();
         snackList.set(slotIndex,snack);
+        return snack.getQuantity();
+    }
+    public void printSnackList(){
+        int i =0;
+        int row,col;
+        System.out.println("-------------------------------------------------------------");
+        for(i=0; i<5; i++){
+            for (int j=0; j<5; j++){
+                System.out.print(i+1+""+(j+1)+"\t\t");
+            }
+            System.out.print("\n");
+            for (int j=0; j<5; j++){
+                System.out.print(this.snackList.get(i*5 +j).getName()+"\t");
+            }
+            System.out.print("\n\n");
+        }
+        System.out.println("-------------------------------------------------------------");
+        System.out.print("Please Enter the index of you chosen snack\n");
     }
 
 

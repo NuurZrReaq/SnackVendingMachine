@@ -22,7 +22,10 @@ public class Snack {
     public int getQuantity() {
         return quantity;
     }
-    public void decrementQuantity(){
+    public int decrementQuantity(){
+        if(this.quantity == 0)
+            return this.quantity;
         this.quantity = this.quantity -1;
+        return this.quantity;
     }
 }

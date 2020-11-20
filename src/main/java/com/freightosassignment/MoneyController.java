@@ -46,11 +46,13 @@ public class MoneyController {
         int i=0;
         while (i<5){
             i++;
-            System.out.println("Would you like to use credit card for paying?\n Please Enter Yes or No\n");
+            System.out.println("Would you like to use credit card for paying?\n " +
+                    "Please Enter Yes or No\n");
             String isCredit = console.nextLine().toLowerCase();
             switch(isCredit){
                 case "no": {
-                    System.out.println("Please start entering your coins or bank notes\nWhen you finish please press ENTER\n");
+                    System.out.println("Please start entering your coins or bank notes\n" +
+                            "When you finish please press ENTER\n");
                     String moneyString;
                     double moneyDouble;
                     double moneyToReturn =0;
@@ -64,7 +66,7 @@ public class MoneyController {
                         if(validateMoney(moneyDouble)) {
                             accumulatedMoney += moneyDouble;
                             System.out.println("Money entered : "+ accumulatedMoney+" \n");
-                            if(accumulatedMoney>price) break;
+                            if(accumulatedMoney>=price) break;
                         }
                         else {
                             System.out.println("Unaccepted Money entered");
@@ -94,7 +96,8 @@ public class MoneyController {
                             return 0;
                         }
                         else {
-                            System.out.println("Your balance is not enough to buy this item, Please use another method to pay");
+                            System.out.println("Your balance is not enough to buy this item." +
+                                    "Please use another method to pay");
                             continue;
                         }
                     }

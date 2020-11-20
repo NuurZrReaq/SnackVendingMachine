@@ -24,6 +24,7 @@ public class SnackVendingMachineApplication {
         }
         int row, col;
         while(true){
+            snacksController.printSnackList();
             dispenseSnack.add(Boolean.FALSE);
             snackIndexString = Keypad.read(console);
             splitSnackIndexString = snackIndexString.split("");
