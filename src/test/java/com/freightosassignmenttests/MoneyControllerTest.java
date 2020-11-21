@@ -2,7 +2,6 @@ package com.freightosassignmenttests;
 import com.freightosassignment.MoneyController;
 import org.junit.jupiter.api.Test;
 
-import javax.script.ScriptContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -26,18 +25,18 @@ public class MoneyControllerTest {
 
     @Test
     void isCreditCardAvailableTest() {
-        assertTrue(moneyController.isCreditCardAvailable("500ax"));
-        assertFalse(moneyController.isCreditCardAvailable("500ap"));
+        assertTrue(moneyController.isCardAvailable("500ax"));
+        assertFalse(moneyController.isCardAvailable("500ap"));
     }
 
     @Test
     void buyWithCreditCardTest() {
-        assertTrue(moneyController.buyWithCreditCard("500as",2.00));
-        assertTrue(moneyController.buyWithCreditCard("500ad",2.00));
-        assertFalse(moneyController.buyWithCreditCard("500ax",2.00));
-        assertFalse(moneyController.buyWithCreditCard("500ai",2.00));
-        assertTrue(moneyController.buyWithCreditCard("500aq",5.00));
-        assertFalse(moneyController.buyWithCreditCard("500aq",2.00));
+        assertTrue(moneyController.buyWithCard("500as",2.00));
+        assertTrue(moneyController.buyWithCard("500ad",2.00));
+        assertFalse(moneyController.buyWithCard("500ax",2.00));
+        assertFalse(moneyController.buyWithCard("500ai",2.00));
+        assertTrue(moneyController.buyWithCard("500aq",5.00));
+        assertFalse(moneyController.buyWithCard("500aq",2.00));
 
     }
 

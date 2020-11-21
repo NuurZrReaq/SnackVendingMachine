@@ -12,7 +12,7 @@ public class MoneyController {
         cardList = new ArrayList<>();
         cards = new File("cards.txt");
         try {
-            cardList = fillCreditCardList(new Scanner(cards));
+            cardList = fillCardList(new Scanner(cards));
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             exception.printStackTrace();
@@ -20,7 +20,7 @@ public class MoneyController {
 
     }
     //Checks if the cardId entered is for a valid credit card.
-    public boolean isCreditCardAvailable(String cardId){
+    public boolean isCardAvailable(String cardId){
         for(Card card : cardList){
             try {
                 if (card.getCardId().equals(cardId))
@@ -32,7 +32,7 @@ public class MoneyController {
         return false;
     }
     //Updates the balance of the used credit card.
-    public boolean buyWithCreditCard(String cardId, double price){
+    public boolean buyWithCard(String cardId, double price){
         int i=0;
         for(Card card : cardList){
             try{
@@ -124,8 +124,8 @@ public class MoneyController {
                         exception.printStackTrace();
                         continue;
                     }
-                    if(isCreditCardAvailable(cardID)){
-                        if(buyWithCreditCard(cardID,price)){
+                    if(isCardAvailable(cardID)){
+                        if(buyWithCard(cardID,price)){
                             System.out.println("Your payment has been performed successfully");
                             dispenseSnack.set(0,Boolean.TRUE);
                             return 0;
@@ -157,7 +157,7 @@ public class MoneyController {
         return false;
     }
     //Reads the list of credit card from a local file to mock a dataset.
-    private List<Card> fillCreditCardList(Scanner file)  {
+    private List<Card> fillCardList(Scanner file)  {
         List<Card> cards = new ArrayList<>();
         String line;
         String [] splitLine;
